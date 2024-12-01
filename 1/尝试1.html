@@ -1,0 +1,161 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Loading Screen</title>
+    <style>
+        /* 页面基础样式 */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #458B74;
+            color: white;
+            text-align: center;
+            padding: 50px;
+            margin: 0;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+
+        .progress-container {
+            width: 100%;
+            max-width: 500px;
+            background-color: #F0FFF0;
+            border-radius: 25px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+            height: 50px;
+        }
+
+        .progress-bar {
+            width: 0;
+            height: 100%;
+            background-color: #9BCD9B;
+            border-radius: 25px;
+            position: relative;
+        }
+
+        .running-man {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 70px;
+            height: auto;
+            transition: left 0.25s linear;
+        }
+
+        .loading-text {
+            margin-top: 15px;
+            font-size: 1.2em;
+        }
+
+        .start-button, .back-button {
+            display: none;
+            opacity: 0;
+            visibility: hidden;
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, visibility 0.5s ease;
+        }
+
+            .start-button:hover, .back-button:hover {
+                background-color: #45a049;
+            }
+
+            .start-button.visible, .back-button.visible {
+                opacity: 1;
+                visibility: visible;
+                display: inline-block;
+            }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 14px;
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2em;
+            }
+
+            .progress-container {
+                width: 90%;
+                height: 40px;
+            }
+
+            .progress-bar {
+                height: 100%;
+            }
+
+            .running-man {
+                width: 50px;
+            }
+
+            .start-button, .back-button {
+                padding: 8px 16px;
+            }
+
+            .loading-text {
+                font-size: 1.2em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Loading Game...</h1>
+    <div class="progress-container">
+        <div class="progress-bar" id="progress-bar">
+            <img src="running-man.gif" alt="Running Man" class="running-man" id="running-man" />
+        </div>
+    </div>
+    <div class="loading-text" id="loading-text">0%</div>
+    <button class="start-button" id="start-button" onclick="startGame()">Start Game</button>
+    <button class="back-button" id="back-button" onclick="goBack()">Back</button>
+
+    <script>
+        let progress = 0;
+        const progressBar = document.getElementById('progress-bar');
+        const loadingText = document.getElementById('loading-text');
+        const startButton = document.getElementById('start-button');
+        const backButton = document.getElementById('back-button');
+        const runningMan = document.getElementById('running-man');
+
+        function updateProgress() {
+            if (progress < 100) {  // 只在进度小于100时继续更新
+                progressBar.style.width = `${progress}%`;
+                runningMan.style.left = `${progress}%`;
+                loadingText.innerText = `${progress}%`;
+                progress++;
+                setTimeout(updateProgress, 50);  // 递归更新进度
+            } else {
+                // 达到100%时，显示按钮
+                setTimeout(function () {
+                    startButton.classList.add('visible');
+                    backButton.classList.add('visible');
+                }, 500);
+            }
+        }
+
+        function startGame() {
+            alert('Starting the game!');
+        }
+
+        function goBack() {
+            alert('Going back to the previous page!');
+        }
+
+        // 启动进度条更新
+        updateProgress();
+    </script>
+</body>
+</html>
